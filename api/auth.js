@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Tweep = require("../model/Tweeps");
+const Tweep = require("../models/tweeps");
+
+router.get("/", (request, response) => {
+  response.send("testin");
+});
 
 router.post("/signup", (request, response) => {
   const tweep = new Tweep({
@@ -8,6 +12,14 @@ router.post("/signup", (request, response) => {
     email: request.body.email,
     password: request.body.password,
   });
+  tweep
+    .save()
+    .then((data) => {
+      response.json(data);
+    })
+    .catch((error) => {
+      response.json(error);
+    });
 });
 
 module.exports = router;

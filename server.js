@@ -10,8 +10,10 @@ mongoose.connect(process.env.DB_CONNECTION, () =>
 
 const app = express();
 
-app.use("/api/auth/", authUrls);
+app.use("/api/auth", authUrls);
 
 app.listen(3000, () => {
   console.log("server is up & running");
 });
+
+app.use(express.json());
