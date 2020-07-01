@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Tweep = require("../models/tweeps");
+const Tweep = require("../models/Tweeps");
 
 router.get("/", (request, response) => {
   response.send("testin");
