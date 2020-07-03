@@ -13,6 +13,11 @@ router.post("/signup", async (request, response) => {
     return response.status(400).send(error.details[0].message);
   }
 
+  const existingEmail = await Tweep.findOne({ email: request.body.email });
+  if (existingEmail) {
+    return response.status(400).send("Email already exists");
+  }
+
   const tweep = new Tweep({
     userName: request.body.userName,
     email: request.body.email,
