@@ -1,12 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const Tweep = require("../models/Tweeps");
+const { signupChecks } = require("../authValidation");
 
 router.get("/", (request, response) => {
   response.send("testin");
 });
 
-router.post("/signup", (request, response) => {
+router.post("/signup", async (request, response) => {
+  const { error } = signupChecks(request.body);
+
   const tweep = new Tweep({
     userName: request.body.userName,
     email: request.body.email,
