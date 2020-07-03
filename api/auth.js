@@ -9,6 +9,9 @@ router.get("/", (request, response) => {
 
 router.post("/signup", async (request, response) => {
   const { error } = signupChecks(request.body);
+  if (error) {
+    return response.status(400).send(error.details[0].message);
+  }
 
   const tweep = new Tweep({
     userName: request.body.userName,
