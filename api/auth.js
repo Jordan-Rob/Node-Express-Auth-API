@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Tweep = require("../models/Tweeps");
 const { signupChecks } = require("../authValidation");
+const bcrypt = require('bcryptjs')
 
 router.get("/", (request, response) => {
   response.send("testin");
@@ -18,10 +19,13 @@ router.post("/signup", async (request, response) => {
     return response.status(400).send("Email already exists");
   }
 
+  const saltPassword = await bcrypt.genSalt(10)
+  const hashedPassword = await bcrypt.hash(request.body.password, saltPassword)
+
   const tweep = new Tweep({
     userName: request.body.userName,
     email: request.body.email,
-    password: request.body.password,
+    password: hashedPassword,
   });
   tweep
     .save()
