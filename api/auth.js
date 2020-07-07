@@ -3,6 +3,7 @@ const router = express.Router();
 const Tweep = require("../models/Tweeps");
 const { signupChecks, loginChecks } = require("../authValidation");
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 
 router.get("/", (request, response) => {
@@ -51,6 +52,10 @@ router.post("/login", async (request, response) => {
   if (!correctPassword) {
     return response.status(400).send('Incorrect password')
   }
+
+  const sessionToken = jwt.sign({ _id: appUser.id }, process.env.MY_SECRET_TOKEN)
+  response.header('authentication-id', sessionToken).send(sessionToken)
+
   response.send('logged in successfully')
 })
 
